@@ -1,0 +1,6 @@
+// Our corner page: cafe story, photographs, and location.
+// Loaded by index.php; shared state and interactions live in website.js.
+
+function story() {
+    return `<section class="wrap">${heading('OUR LITTLE CORNER OF ANGELES', 'A place to <em>just be.</em>', 'Coffee in hand. A record on the wall. Nowhere else you need to be.')}<div class="story-grid"><img src="rio%20image/1.jpg" alt="A cozy corner of Rio Street Coffee"><div><p class="eyebrow">WELCOME TO THE SECOND FLOOR</p><h2>A familiar feeling.<br>A <em>fresh cup.</em></h2><p>Above the everyday bustle of Sto. Rosario Street, there’s a little room for slowing down. Settle into the sofa, catch up with your people, or find a quiet moment between classes.</p><p>Rio is for the unhurried conversations, the one-more-coffee afternoons, and the good company that makes you lose track of time.</p><a class="button" href="#menu">A cup to keep you company <span>↗</span></a></div></div><div class="story-pair"><figure><img src="rio%20image/2.jpg" alt="Friends watching a race together at Rio" loading="lazy"><figcaption>THE LITTLE MOMENTS BETWEEN SIPS.</figcaption></figure><figure><img src="rio%20image/4.jpg" alt="Friends and baristas at the Rio coffee counter" loading="lazy"><figcaption>GOOD PEOPLE. YOUR NEIGHBORHOOD.</figcaption></figure></div></section>${visit()}`;
+}
