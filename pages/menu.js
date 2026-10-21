@@ -1,0 +1,17 @@
+// Menu page: category filters, product list, and photo preview layout.
+// Loaded by index.php; shared state and interactions live in website.js.
+
+function menu() {
+    const first = state.products.find(p => state.category === 'All' || p.category === state.category) || state.products[0];
+    const photo = productPhoto(first?.id);
+    return `<section class="wrap menu-section">${heading('Made at Rio', 'The menu.', 'Find your everyday cup. Or meet a new favorite.', '<p>Pickup at the counter</p><strong>2F Lead Bldg.</strong><span>Sto. Rosario St., Angeles City</span><div class="note-hours"><span>Mon–Sat <b>9am–10pm</b></span><span>Sunday <b>1pm–10pm</b></span></div>')}<div class="menu-toolbar"><div class="tabs" role="group" aria-label="Menu categories">${['All', 'Coffee', 'Non-coffee', 'Pastries'].map(cat => `<button data-action="category" data-category="${cat}" aria-pressed="${state.category === cat}" class="${state.category === cat ? 'active' : ''}">${cat === 'All' ? 'Everything' : cat}</button>`).join('')}</div><label class="search"><input id="menu-search" type="search" placeholder="Search the menu" aria-label="Search menu" value="${escapeHTML(state.search)}"></label></div>
+    <div class="menu-layout"><aside class="menu-feature"><div class="glass-preview" id="menu-preview" data-product="${first?.id || ''}"><div class="preview-photo"><img class="preview-image" src="${photo.src}" alt="${photo.alt}"><div class="preview-caption"><div><span class="preview-category">${escapeHTML(first?.category || 'Coffee')}</span><h2 class="preview-name">${escapeHTML(first?.name || 'Your next cup')}</h2></div><span class="preview-price">${first ? money(first.price) : ''}</span></div></div><div class="preview-foot"><span class="preview-credit">${photo.credit}</span><span>Rio / Menu</span></div></div><p class="preview-hint">Move over a menu item to take a closer look.</p></aside>
+    <div class="menu-paper"><div class="menu-list-heading"><h2>Made for your break.</h2><span>Pickup at Rio</span></div><div id="product-list">${productList()}</div><p class="menu-note">Sample menu & prices in PHP. Additional images are serving inspiration.<br>Drinks served iced. Please mention allergies in your order note.</p><a href="#order" class="button menu-checkout">Review your bag <span>↗</span></a></div></div></section>`;
+}
+function productList() {
+    const products = state.products.filter(p => (state.category === 'All' || p.category === state.category) && `${p.name} ${p.description}`.toLowerCase().includes(state.search.toLowerCase()));
+    return products.map(p => {
+        const photo = productPhoto(p.id);
+        return `<article class="product-row" data-preview-id="${p.id}"><button class="product-photo-button" data-action="photo" data-id="${p.id}" aria-label="Preview ${escapeHTML(p.name)} photo"><img src="${photo.src}" alt="" loading="lazy"><span aria-hidden="true">↗</span></button><div class="product-description"><span class="product-category">${escapeHTML(p.category)}${p.id == 1 ? ' / House favorite' : ''}</span><h3>${escapeHTML(p.name)}</h3><p>${escapeHTML(p.description)}</p></div><div class="product-buy"><b>${money(p.price)}</b><button class="add-button" data-action="add" data-id="${p.id}" aria-label="Add ${escapeHTML(p.name)} to bag">+</button></div></article>`;
+    }).join('') || '<div class="empty"><h3>No cups found.</h3><p>Try another search or category.</p><button class="text-link" data-action="reset-search">Reset filters ↗</button></div>';
+}
